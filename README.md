@@ -49,3 +49,18 @@ THEN I am able to view posts and comments but I am prompted to log in again befo
 
 ## Deployed Application
 The project has been deployed [here](https://tech-blog-1xzh.onrender.com/).
+
+The user will first be directed to the homepage where they will see blog posts.
+![Homepage](assets/homepage.png)
+
+The user can then click on Login in the nav bar and will be redirected to the login page. They have the option to sign up instead as well.
+![Login](assets/login.png)
+![Sign Up](assets/sign-up.png)
+
+Once signed in, the user has access to their dashboard. This is where they will see their own posts to edit/delete and the ability to create a new post.
+![Dashboard](assets/dashboard.png)
+![Edit or Delete Post](assets/edit-delete.png)
+![Create](assets/create-post.png)
+
+If the user navigates back to the homepage and clicks on a post, they can view any comments left on that post and submit their own comment.
+![Comment](assets/comment.png)
