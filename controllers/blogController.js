@@ -50,6 +50,7 @@ module.exports = {
 				// All the fields you can update and the data attached to the request body.
 				title: req.body.title,
 				content: req.body.content,
+				comments: req.body.comments
 			},
 			{
 			// Gets the books based on the isbn given in the request parameters

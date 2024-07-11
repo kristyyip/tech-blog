@@ -21,6 +21,11 @@ BlogPosts.init(
         },
         allowNull: false,
     },
+    comments:  {
+        type: DataTypes.TEXT,
+        allowNull: true,
+        defaultValue: "[]"
+    }
 },
 {    
     sequelize,
