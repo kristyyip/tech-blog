@@ -31,6 +31,7 @@ async function getData(url) {
     } catch (err) {console.log(err)};
 }
 
+// function to create new post
 const createPostHandler = async (event) => {
     event.preventDefault()
 
@@ -51,6 +52,7 @@ const createPostHandler = async (event) => {
         });
     
         if (response.ok) {
+            // refresh page
             location.reload()
         } else {
             alert(response.statusText);
@@ -58,6 +60,7 @@ const createPostHandler = async (event) => {
     }
 };
 
+// function to add existing comments from database to modal
 const addExistingComments = (commentData, i) => {
     // create card elements using information from fetch response
     const commentCard = $("<div>").addClass("list-group-item list-group-item-action")
@@ -74,9 +77,12 @@ const addExistingComments = (commentData, i) => {
     return commentCard;
 }
 
+// populate the modal with blog post data
 const populateFields = async (event) => {
+    // execute code if user is on dashboard page
     if (window.location.href.includes("/dashboard")) {
 
+        // get post id from click
         const postId = event.target.id
 
         // get blog post data from api
@@ -86,12 +92,17 @@ const populateFields = async (event) => {
         editTitle.val(postData.title);
         editContent.val(postData.content);
 
+        // set data attribute to postId to be referenced later
         editPostModal.attr("data-id", postId);
 
         editPostModal.show();
 
+    // execute code if user is on homepage
     } else {
         let postId;
+
+        // assign post values based on what was clicked
+        // submit button to handle update to modal without refreshing page
         if (event.target.closest("#submit")) {
             postId = viewMoreModal.attr("data-id");
         } else {
@@ -112,6 +123,7 @@ const populateFields = async (event) => {
             commentsSection.children().remove(); 
         }
 
+        // if comments array contains elements, append comments to modal
         if (postData.comments !== "[]") {
             let commentsArray = JSON.parse(postData.comments);
 
@@ -121,6 +133,7 @@ const populateFields = async (event) => {
             }
         }
 
+        // set data attribute to postId to be referenced later
         viewMoreModal.attr("data-id", postId);
 
         viewMoreModal.show();
@@ -128,9 +141,11 @@ const populateFields = async (event) => {
 
 }
 
+// function to edit existing post
 const editPostHandler = async (event) => {
     event.preventDefault();
 
+    // get post id from modal's data attribute
     postId = editPostModal.attr("data-id");
 
     // collect values from form
@@ -146,6 +161,7 @@ const editPostHandler = async (event) => {
         });
     
         if (response.ok) {
+            // refresh page
             location.reload()
         } else {
             alert(response.statusText);
@@ -153,9 +169,11 @@ const editPostHandler = async (event) => {
     }
 }
 
+// function to delete existing post
 const deletePostHandler = async (event) => {
     event.preventDefault();
 
+    // get post id from modal's data attribute
     postId = editPostModal.attr("data-id");
 
     // Send a DELETE request to the API endpoint
@@ -165,29 +183,33 @@ const deletePostHandler = async (event) => {
     });
 
     if (response.ok) {
+        // refresh page
         location.reload()
     } else {
         alert(response.statusText);
     }
 }
 
+// function to post comments
 const postCommentHandler = async (event) => {
     event.preventDefault();
 
+    // get post id from modal's data attribute
     postId = viewMoreModal.attr("data-id");
 
-    // get user id from api
+    // get username from api
     const userData = await getData("/api/user");
     const username = userData.username;
 
     // get current timestamp
     const date = dayjs().format("M/DD/YY");
 
-
+    // execute code only if comment box contains text
     if (commentText.val()) {
         // collect values from form
         text = commentText.val();
 
+        // create comment object to push to array
         commentObj = {
             text,
             username,
@@ -198,7 +220,10 @@ const postCommentHandler = async (event) => {
         const postData = await getData(`/api/blog/${postId}`);
         let commentsArray = JSON.parse(postData.comments);
 
+        // add comment obejct to commentsArray
         commentsArray.push(commentObj);
+
+        // convert array back into string so that it can be inserted into table
         commentsArray = JSON.stringify(commentsArray)
 
         // Send a PUT request to the API endpoint
@@ -208,9 +233,11 @@ const postCommentHandler = async (event) => {
             headers: { 'Content-Type': 'application/json' },
         });
 
+        // reset comment box
         commentText.val("");
     
         if (response.ok) {
+            // "refresh"/update modal with new comment
             viewMoreModal.hide();
             populateFields(event);
             viewMoreModal.show();

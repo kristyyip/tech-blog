@@ -21,19 +21,6 @@ module.exports = {
         }
 	},
 
-	getUserPosts: async (req, res) => {
-		try {
-            const blogData = await BlogPosts.findAll({
-				where: {
-					creatorID: req.session.user_id
-				}	
-			})
-            res.json(blogData);
-        } catch (err) {
-            res.status(500).json(err);
-        }
-	},
-
 	getOne: async (req, res) => {
 		try {
             const blogData = await BlogPosts.findByPk(req.params.id)
@@ -53,21 +40,21 @@ module.exports = {
 				comments: req.body.comments
 			},
 			{
-			// Gets the books based on the isbn given in the request parameters
+			// Gets the post based on the id given in the request parameters
 			where: {
 				id: req.params.id,
 			},
 			}
 		)
 		.then((updatedPost) => {
-			// Sends the updated book as a json response
+			// Sends the updated post as a json response
 			res.json(updatedPost);
 		})
 		.catch((err) => res.json(err));
 	},
 	
 	deletePost: async (req, res) => {
-		// Looks for the books based on isbn given in the request parameters and deletes the instance from the database
+		// Looks for the post based on id given in the request parameters and deletes the instance from the database
 		BlogPosts.destroy({
 			where: {
 				id: req.params.id,
