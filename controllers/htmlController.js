@@ -2,7 +2,10 @@ const { BlogPosts } = require('../models');
 
 module.exports = {
 	homepage: async (req, res) => {
-		const blogPosts = await BlogPosts.findAll({ include: ['user'] });
+		const blogPosts = await BlogPosts.findAll({ 
+            include: ['user'], 
+            order: [['id', 'DESC'],] 
+        });
 		const posts = blogPosts.map((post) => post.get({ plain: true }));
 
 		res.render('homepage', { posts, logged_in: req.session.logged_in });
@@ -17,11 +20,11 @@ module.exports = {
 	},
 
     dashboard: async (req, res) => {
-        const blogPosts = await BlogPosts.findAll({ 
-			where: {creatorID: req.session.user_id}
+        const blogPosts = await BlogPosts.findAll({
+            where: {creatorID: req.session.user_id},
+            order: [['id', 'ASC'],]
         });
 		const posts = blogPosts.map((post) => post.get({ plain: true }));
-        console.log(posts);
 
 		res.render('dashboard', {posts, logged_in: req.session.logged_in});
 	},

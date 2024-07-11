@@ -1,3 +1,6 @@
+<h1 class="my-5 text-center">Your Dashboard</h1>
+
+{{!-- modal to create new post --}}
 <div class="modal" id="addPostModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -25,14 +28,42 @@
   </div>
 </div>
 
-<div class="list-group">
+{{!-- modal to edit existing posts --}}
+<div class="modal" id="editPostModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Edit Post</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="mb-3">
+            <label for="editTitle" class="col-form-label">Title</label>
+            <input type="text" class="form-control" id="editTitle">
+          </div>
+          <div class="mb-3">
+            <label for="editContent" class="col-form-label">Content</label>
+            <textarea class="form-control" id="editContent"></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal" id="delete">Delete</button>
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="update">Update Post</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{{!-- user's posts --}}
+<div class="list-group m-5 w-75 mx-auto">
   {{#each posts}}
-   <a href="#" id="{{id}}" class="list-group-item list-group-item-action">
-      <div class="d-flex w-100 justify-content-between align-items-center">
+   <div id="{{id}}" class="list-group-item list-group-item-action d-flex w-100 justify-content-between align-items-center" data-bs-toggle="modal" data-bs-target="#editPostModal">
         <h5 class="mb-1">{{title}}</h5>
         <small class="text-muted">Posted on {{format_date createdAt}}</small>
-      </div>
-   </a>
+   </div>
   {{/each}}
 </ul>
 

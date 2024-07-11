@@ -1,6 +1,10 @@
 // grab references to the important DOM elements
 const createBtn = $("#create");
+const updateBtn = $("#update")
+const deleteBtn = $("#delete")
 const addPostModal = $("#addPostModal");
+const editPostModal = $("#editPostModal");
+const listGroupItem = $(".list-group-item");
 
 // get request to get data from api url
 async function getData(url) {
@@ -44,4 +48,46 @@ const createPostHandler = async (event) => {
     }
 };
 
+const populateFields = async (event) => {
+    const postId = event.target.id
+
+    // get blog post data from api
+    const postData = await getData(`/api/blog/${postId}`);
+    console.log(postData)
+
+    // populate fields from post data
+    $('#editTitle').val(postData.title);
+    $('#editContent').val(postData.content);
+
+    editPostModal.attr("data-id", postId);
+
+    editPostModal.show();
+}
+
+const editPostHandler = async (event) => {
+    event.preventDefault();
+
+    postId = editPostModal.attr("data-id");
+
+    // collect values from form
+    const title = $('#editTitle').val();
+    const content = $('#editContent').val();
+
+    if (title && content) {
+        // Send a POST request to the API endpoint
+        const response = await fetch(`/api/blog/${postId}`, {
+            method: 'PUT',
+            body: JSON.stringify({ title, content }),
+            headers: { 'Content-Type': 'application/json' },
+        });
+    
+        if (!response.ok) {
+            alert(response.statusText);
+        }
+    }
+}
+
+
 createBtn.on("click", createPostHandler);
+listGroupItem.on("click", populateFields);
+updateBtn.on("click", editPostHandler);

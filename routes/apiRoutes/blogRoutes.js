@@ -5,5 +5,7 @@ const router = require("express").Router()
 
 router.route("/").post(withAuth, blogController.add);
 router.route("/").get(blogController.getAll);
+router.route("/:id").get(blogController.getOne);
+router.route("/:id").put(blogController.updatePost)
 
 module.exports = router;
