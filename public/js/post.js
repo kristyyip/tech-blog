@@ -38,10 +38,7 @@ const createPostHandler = async (event) => {
             headers: { 'Content-Type': 'application/json' },
         });
     
-        if (response.ok) {
-            addPostModal.hide();
-            console.log("hi")
-        } else {
+        if (!response.ok) {
             alert(response.statusText);
         }
     }
