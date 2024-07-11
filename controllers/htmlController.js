@@ -6,6 +6,7 @@ module.exports = {
 
 		const posts = blogPosts.map((post) => post.get({ plain: true }));
 		console.log(req.session.logged_in);
+        console.log(posts)
 		res.render('homepage', { posts, logged_in: req.session.logged_in });
 	},
 
@@ -18,6 +19,6 @@ module.exports = {
 	},
 
     dashboard: async (req, res) => {
-		res.render('dashboard', {logged_in: req.session.logged_in});
+		res.render('dashboard', {logged_in: req.session.logged_in, createrId: req.session.user_id});
 	},
 };
