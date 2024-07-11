@@ -11,6 +11,7 @@ module.exports = {
 		const blogData = await BlogPosts.create(tempData);
 		res.json(blogData);
 	},
+
 	getAll: async (req, res) => {
 		try {
             const blogData = await BlogPosts.findAll();
@@ -19,6 +20,7 @@ module.exports = {
             res.status(500).json(err);
         }
 	},
+
 	getUserPosts: async (req, res) => {
 		try {
             const blogData = await BlogPosts.findAll({
@@ -31,6 +33,7 @@ module.exports = {
             res.status(500).json(err);
         }
 	},
+
 	getOne: async (req, res) => {
 		try {
             const blogData = await BlogPosts.findByPk(req.params.id)
@@ -39,25 +42,39 @@ module.exports = {
             res.status(500).json(err);
         }
 	},
+
 	updatePost: async (req, res) => {
 		// Calls the update method on the Book model
 		BlogPosts.update(
-		  {
-			// All the fields you can update and the data attached to the request body.
-			title: req.body.title,
-			content: req.body.content,
-		  },
-		  {
+			{
+				// All the fields you can update and the data attached to the request body.
+				title: req.body.title,
+				content: req.body.content,
+			},
+			{
 			// Gets the books based on the isbn given in the request parameters
 			where: {
-			  id: req.params.id,
+				id: req.params.id,
 			},
-		  }
+			}
 		)
-		  .then((updatedPost) => {
+		.then((updatedPost) => {
 			// Sends the updated book as a json response
 			res.json(updatedPost);
-		  })
-		  .catch((err) => res.json(err));
+		})
+		.catch((err) => res.json(err));
+	},
+	
+	deletePost: async (req, res) => {
+		// Looks for the books based on isbn given in the request parameters and deletes the instance from the database
+		BlogPosts.destroy({
+			where: {
+				id: req.params.id,
+			},
+		})
+		.then((deletedPost) => {
+			res.json(deletedPost);
+		})
+		.catch((err) => res.json(err));
 	}
 };

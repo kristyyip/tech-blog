@@ -74,16 +74,36 @@ const editPostHandler = async (event) => {
     const content = $('#editContent').val();
 
     if (title && content) {
-        // Send a POST request to the API endpoint
+        // Send a PUT request to the API endpoint
         const response = await fetch(`/api/blog/${postId}`, {
             method: 'PUT',
             body: JSON.stringify({ title, content }),
             headers: { 'Content-Type': 'application/json' },
         });
     
-        if (!response.ok) {
+        if (response.ok) {
+            location.reload()
+        } else {
             alert(response.statusText);
         }
+    }
+}
+
+const deletePostHandler = async (event) => {
+    event.preventDefault();
+
+    postId = editPostModal.attr("data-id");
+
+    // Send a DELETE request to the API endpoint
+    const response = await fetch(`/api/blog/${postId}`, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+    });
+
+    if (response.ok) {
+        location.reload()
+    } else {
+        alert(response.statusText);
     }
 }
 
@@ -91,3 +111,4 @@ const editPostHandler = async (event) => {
 createBtn.on("click", createPostHandler);
 listGroupItem.on("click", populateFields);
 updateBtn.on("click", editPostHandler);
+deleteBtn.on("click", deletePostHandler);
