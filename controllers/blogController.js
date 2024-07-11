@@ -23,7 +23,7 @@ module.exports = {
 
 	getOne: async (req, res) => {
 		try {
-            const blogData = await BlogPosts.findByPk(req.params.id)
+            const blogData = await BlogPosts.findByPk(req.params.id, {include: ['user']})
             res.json(blogData);
         } catch (err) {
             res.status(500).json(err);

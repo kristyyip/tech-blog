@@ -10,6 +10,7 @@ const card = $(".card");
 const editTitle = $('#editTitle')
 const editContent = $('#editContent')
 const postTitle  = $("#postTitle");
+const poster = $("#poster");
 const postContent  = $("#postContent");
 const commentText = $("#comment")
 const commentsSection = $("#comments");
@@ -113,9 +114,10 @@ const populateFields = async (event) => {
 
         // get blog post data from api
         const postData = await getData(`/api/blog/${postId}`);
-
+            console.log(postData);
         // populate fields from post data
         postTitle.html(postData.title)
+        poster.html(`Posted by ${postData.user.username} on ${dayjs(postData.createdAt).format("M/DD/YY")}`);
         postContent.html(postData.content);
 
         // removes any previously opened post's comments from modal

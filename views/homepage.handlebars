@@ -18,19 +18,21 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-		<p class="py-3" id="postContent"></p>
-		<div class="py-1 list-group" id="comments"></div>
-		{{#if logged_in}}
-		<hr>
+        <small class="py-1 text-muted" id="poster"></small>
+        <p class="py-3" id="postContent"></p>
+        <div class="py-1 list-group" id="comments"></div>
+        {{#if logged_in}}
+        <hr>
         <form>
           <div class="mb-3">
             <label for="comment" class="col-form-label">Comment</label>
             <textarea class="form-control" id="comment"></textarea>
 
-			<button type="button" class="btn btn-primary w-100 my-2" id="submit">Submit</button>
+            <button type="button" class="btn btn-primary w-100 my-2" id="submit">Submit</button>
           </div>
-		</form>
-		{{/if}}
+        </form>
+		    {{/if}}
+      </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
       </div>
